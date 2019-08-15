@@ -3,9 +3,11 @@
 !includedir /etc/mysql/mysql.conf.d/
 
 [mysqld]
-server-id        				= 1
-max_binlog_size         		= 100M
-log-bin
-log_bin_trust_function_creators	= 1
-binlog_format 					= STATEMENT
+server-id						= 1
+max_binlog_size					= 100M
+log-bin							= mysql-bin
+binlog_format					= STATEMENT
+innodb_flush_log_at_trx_commit	= 1
+sync_binlog						= 1
+
 

@@ -1,11 +1,5 @@
 version: '2'
 
-volumes:
-  mariadbdata:
-    external: true
-  mysqldbdata:
-    external: true
-
 services:
   mysql1:
     image: mysql:5.7.22
@@ -16,7 +10,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
     volumes:
-      - ./mysql5.7.22/my2.cnf:/etc/mysql/my.cnf
+      - ./mysql5.7.22/my1.cnf:/etc/mysql/my.cnf
+      - ./data/mysql1:/var/lib/mysql
 
   mysql2:
     image: mysql:5.7.22
@@ -30,16 +25,17 @@ services:
       - mysql1
     volumes:
       - ./mysql5.7.22/my2.cnf:/etc/mysql/my.cnf
+      - ./data/mysql2:/var/lib/mysql
 
-  tester:
-    build: centos7
-    container_name: tester
-    tty: true
-    working_dir: /centos7
-    environment:
-      - MYSQL_PWD=root
-    depends_on:
-      - mysql1
-      - mysql2
-    volumes:
-       - ./centos7:/centos7
+  # centos7:
+  #   build: centos7
+  #   container_name: centos7
+  #   tty: true
+  #   working_dir: /centos7
+  #   environment:
+  #     - MYSQL_PWD=root
+  #   depends_on:
+  #     - mysql1
+  #     - mysql2
+  #   volumes:
+  #      - ./centos7:/centos7

@@ -1,11 +1,17 @@
+
 CHANGE MASTER TO
     MASTER_HOST='mysql1',
     MASTER_USER='rep_user',
     MASTER_PASSWORD='rep_user',
-    MASTER_PORT=3306,
-    MASTER_LOG_FILE='whatever',
- 	MASTER_LOG_POS=whatever,
-    MASTER_CONNECT_RETRY=whatever;
+ 	MASTER_LOG_POS=495,
+    MASTER_LOG_FILE='mysql-bin.000036',
+    MASTER_PORT=3306;
 
--- RESET SLAVE;
+RESET SLAVE;
 START SLAVE;
+
+DROP USER IF EXISTS 'nonroot'@'%';
+CREATE USER 'nonroot'@'%' IDENTIFIED BY 'nonroot';
+GRANT ALL PRIVILEGES ON dba.* TO 'nonroot'@'%';
+
+FLUSH PRIVILEGES;
