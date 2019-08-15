@@ -1,0 +1,11 @@
+CHANGE MASTER TO
+    MASTER_HOST='mysql1',
+    MASTER_USER='rep_user',
+    MASTER_PASSWORD='rep_user',
+    MASTER_PORT=3306,
+    MASTER_LOG_FILE='whatever',
+ 	MASTER_LOG_POS=whatever,
+    MASTER_CONNECT_RETRY=whatever;
+
+-- RESET SLAVE;
+START SLAVE;
