@@ -23,29 +23,28 @@ $dc up --force-recreate --build --remove-orphans -d
 
 export MYSQL_PWD=root
 
-nc1="0"
-nc2="0"
-while [ $nc1 = "0" ] || [ $nc2 = "0" ]; do 
-    sleep 3;
-    if [ $nc1 = "0" ]; then
-        nc1="1"
-        mysql -h 127.0.0.1 -u root -P 33061 -e "show databases" >/dev/null 2>&1 || nc1="0"
-        if [ $nc1 = "0" ]; then 
-            echo "waiting for mysql1..."
-        else
-            echo "mysql1 connected"
-        fi
+dbc="0"
+# lopp until mysql1 is connected
+while [ $dbc = "0" ]; do 
+    mysql -h 127.0.0.1 -u root -P 33061 -e "show databases" >/dev/null 2>&1 && dbc="1"
+    if [ $dbc = "0" ]; then 
+        echo "waiting for mysql1..."
+    else
+        echo "mysql1 connected"
     fi
+    sleep 2;
+done
 
-    if [ $nc2 = "0" ]; then
-        nc2="1"
-        mysql -h 127.0.0.1 -u root -P 33062 -e "show databases" >/dev/null 2>&1 > /dev/null || nc2="0"
-        if [ $nc2 = "0" ]; then 
-            echo "waiting for mysql2..."
-        else
-            echo "mysql2 connected"
-        fi
+dbc="0"
+# lopp until mysql2 is connected
+while [ $dbc = "0" ]; do 
+    mysql -h 127.0.0.1 -u root -P 33062 -e "show databases" >/dev/null 2>&1 && dbc="1"
+    if [ $dbc = "0" ]; then 
+        echo "waiting for mysql2..."
+    else
+        echo "mysql2 connected"
     fi
+    sleep 1;
 done
 
 echo if asked for passwords, they are same as usernames, either root or nonroot
@@ -123,6 +122,7 @@ read -p "Press enter to end"
 
 # echo checking logs
 # $dc logs -f
+# docker-compose logs -f
 
 
 
