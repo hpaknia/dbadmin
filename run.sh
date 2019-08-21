@@ -92,26 +92,10 @@ echo running replication query on slave
 cat $DIR/centos7/rep-mysql2.sql | mysql --login-path=root2
 
 echo testing replication
-echo create table x with data must appear in mysql2
+echo create table x on mysql1 with data must appear in mysql2
 read -p "Press enter to continue"
 # cat $DIR/centos7/mysql1-2.sql | mysql --login-path=root1 --default-character-set=utf8  
-mysql --login-path=root1 dba << eof
-use dba;
-SET NAMES 'utf8';
-SET CHARACTER SET utf8;
-create table if not exists x (
-    id int auto_increment Primary Key, 
-    name varchar(200) default null, 
-    original varchar(200) default null
-) DEFAULT CHARSET=utf8;
-INSERT INTO x (id, name, original)
-VALUES
-    (1, 'dba', 'dba'),
-    (2, 'hassan', 'حسن'),
-    (null, 'Clement', 'मेहरबान'),
-    (20, 'dba', 'dba');
-
-eof
+cat $DIR/centos7/mysql1-2.sql | mysql --login-path=root1
 
 echo try to wipe out x data on mysql2, but it will fail because of readonly issue
 read -p "Press enter to continue"
