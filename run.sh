@@ -68,41 +68,25 @@ if [ -z "$(mysql_config_editor print -G nonroot2)" ]; then
     mysql_config_editor set --login-path=nonroot2  --host=127.0.0.1 --port=33062 --user=nonroot --password
 fi;
 
-echo loading data to mysql1
-cat $DIR/centos7/mysql1-1.sql | mysql --login-path=root1
+# source $DIR/scenarios/01_utf8_to_latin1.sh
+source $DIR/scenarios/05_latin1_tables.sh
 
-echo loading data to mysql2
-cat $DIR/centos7/mysql2-1.sql | mysql --login-path=root2
+# source $DIR/scenarios/05_latin1_tables.sh
+source $DIR/scenarios/06_fill_latin1_data_mysql1.sh
 
-echo get master info
-SMS=/tmp/show_master_status.txt
-mysql --login-path=root1 -ANe "SHOW MASTER STATUS" > ${SMS}
-CURRENT_LOG=`cat ${SMS} | awk '{print $1}'`
-CURRENT_POS=`cat ${SMS} | awk '{print $2}'`
-echo CURRENT_LOG: ${CURRENT_LOG},  CURRENT_POS: ${CURRENT_POS}
-echo replacing CURRENT_LOG and CURRENT_POS in the slave replication query
-sed -i '' -e "s/MASTER_LOG_FILE='.*'/MASTER_LOG_FILE='${CURRENT_LOG}'/g" centos7/rep-mysql2.sql
-sed -i '' -e "s/MASTER_LOG_POS=.*,/MASTER_LOG_POS=${CURRENT_POS},/g" centos7/rep-mysql2.sql
+source $DIR/scenarios/02_replicate_mysql1_to_mysql2.sh
+
+source $DIR/scenarios/07_fill_in_employees_db.sh
 
 
-echo create replication user on master
-cat $DIR/centos7/rep-mysql1.sql | mysql --login-path=root1
+# source $DIR/scenarios/03_fill_utf8_data_mysql1.sh
 
-echo running replication query on slave
-cat $DIR/centos7/rep-mysql2.sql | mysql --login-path=root2
+# source $DIR/scenarios/04_delete_mysql2_data.sh
 
-echo testing replication
-echo create table x on mysql1 with data must appear in mysql2
-read -p "Press enter to continue"
-# cat $DIR/centos7/mysql1-2.sql | mysql --login-path=root1 --default-character-set=utf8  
-cat $DIR/centos7/mysql1-2.sql | mysql --login-path=root1
 
-echo try to wipe out x data on mysql2, but it will fail because of readonly issue
-read -p "Press enter to continue"
-cat $DIR/centos7/mysql2-2.sql | mysql --login-path=nonroot2
 
 read -p "Press enter to end"
-
+teardown
 
 # echo checking logs
 # $dc logs -f
