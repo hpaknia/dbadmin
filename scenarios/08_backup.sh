@@ -10,7 +10,9 @@ echo backup only schema, excluding views
 
 ignore=$(mysql --login-path=root1 INFORMATION_SCHEMA \
 	--skip-column-names --batch \
-	-e "select group_concat(concat('--ignore-table=', table_schema, '.', table_name) SEPARATOR ' ') from tables where table_type = 'VIEW' and table_schema = 'employees'")
+	-e "select group_concat(concat('--ignore-table=', table_schema, '.', table_name) SEPARATOR ' ') 
+	from tables 
+	where table_type = 'VIEW' and table_schema = 'employees'")
 
 mysqldump --login-path=root1 --column-statistics=0 --no-data employees $ignore > "$DIR/backups/$schema_backup"	
 

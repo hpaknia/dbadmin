@@ -88,10 +88,7 @@ source $DIR/scenarios/07_fill_in_employees_db.sh
 
 # source $DIR/scenarios/04_delete_mysql2_data.sh
 
-source $DIR/scenarios/08_backup_only_schema.sh
-
-
-
+source $DIR/scenarios/08_backup.sh
 
 read -p "Press enter to end"
 teardown
