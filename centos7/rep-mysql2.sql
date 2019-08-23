@@ -4,7 +4,7 @@ CHANGE MASTER TO
     MASTER_USER='rep_user',
     MASTER_PASSWORD='rep_user',
  	MASTER_LOG_POS=1783,
-    MASTER_LOG_FILE='mysql-bin.000056',
+    MASTER_LOG_FILE='mysql-bin.000061',
     MASTER_PORT=3306;
 
 RESET SLAVE;

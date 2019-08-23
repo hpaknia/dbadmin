@@ -60,6 +60,8 @@ echo wait for ONGOING_ANONYMOUS_TRANSACTION_COUNT to become zero
 
 # while [ ! "$(mysql --login-path=root2 -e 'SHOW STATUS LIKE "ONGOING_ANONYMOUS_TRANSACTION_COUNT"')" == "0" ]; do echo 'sleep 1'; sleep 1; done;
 
+sleep 3
+
 echo slave gtid info after
 command='SET @@GLOBAL.GTID_MODE = ON'
 echo $command
