@@ -40,10 +40,6 @@ eof
 
 echo adding procedures
 
-# echo sleep
-# sleep 22222222
-
-
 mysql --login-path=root1 << eof
 USE employees;
 
@@ -64,14 +60,13 @@ END \$\$
 DELIMITER ;
 
 CALL addDepartment (1234, 'for Clement');
-
 eof
 
 echo create view
 mysql --login-path=root1 << eof
 USE employees;
 CREATE VIEW emp AS SELECT e.*, d.dept_name from employees e join departments d on e.dept_no = d.dept_no;
-
+CREATE VIEW emp2 AS SELECT e.emp_no as number, d.dept_name from employees e join departments d on e.dept_no = d.dept_no;
 eof
 
 

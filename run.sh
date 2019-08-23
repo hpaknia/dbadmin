@@ -78,10 +78,12 @@ source $DIR/scenarios/02_replicate_mysql1_to_mysql2.sh
 
 source $DIR/scenarios/07_fill_in_employees_db.sh
 
-
 # source $DIR/scenarios/03_fill_utf8_data_mysql1.sh
 
 # source $DIR/scenarios/04_delete_mysql2_data.sh
+
+source $DIR/scenarios/08_backup_only_schema.sh
+
 
 
 
