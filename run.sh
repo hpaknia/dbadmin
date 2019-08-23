@@ -18,6 +18,12 @@ trap "teardown;exit 1;" INT ERR
 echo stop the containers if running
 teardown
 
+echo clean up mysql data
+rm -rf $DIR/data/*
+
+echo clean up backups
+rm -rf $DIR/backups/*
+
 echo starting the containers
 $dc up --force-recreate --build --remove-orphans -d
 
