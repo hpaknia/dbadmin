@@ -21,6 +21,9 @@ teardown
 echo clean up mysql data
 rm -rf $DIR/data/*
 
+echo create backups directory
+mkdir -p "${DIR}/backups"
+
 echo clean up backups
 rm -rf $DIR/backups/*
 
@@ -74,21 +77,7 @@ if [ -z "$(mysql_config_editor print -G nonroot2)" ]; then
     mysql_config_editor set --login-path=nonroot2  --host=127.0.0.1 --port=33062 --user=nonroot --password
 fi;
 
-# source $DIR/scenarios/01_utf8_to_latin1.sh
-source $DIR/scenarios/05_latin1_tables.sh
-
-# source $DIR/scenarios/05_latin1_tables.sh
-source $DIR/scenarios/06_fill_latin1_data_mysql1.sh
-
-source $DIR/scenarios/02_replicate_mysql1_to_mysql2.sh
-
-source $DIR/scenarios/07_fill_in_employees_db.sh
-
-# source $DIR/scenarios/03_fill_utf8_data_mysql1.sh
-
-# source $DIR/scenarios/04_delete_mysql2_data.sh
-
-source $DIR/scenarios/08_backup.sh
+source $DIR/scenarios/01_backup.sh
 
 read -p "Press enter to end"
 teardown

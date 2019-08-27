@@ -5,6 +5,7 @@ schema_backup="${date}.schema.sql"
 view_procedure_backup="${date}.view.procedures.sql"
 all_without_gtid_backup="${date}.all.without.gtid.sql"
 all_with_gtid_backup="${date}.all.with.gtid.sql"
+all_without_gtid_but_server_has_gtid_backup="${date}.all.without.gtid.but.server.has.gtid.sql"
 
 echo backup only schema, excluding views
 
@@ -74,6 +75,9 @@ echo gtid is enabled message
 
 echo backup all with gtid
 mysqldump --login-path=root1 --column-statistics=0 --set-gtid-purged=ON --all-databases --triggers --routines --events  > "$DIR/backups/$all_with_gtid_backup"
+
+echo backup all without gtid, but server gtid is enabled
+mysqldump --login-path=root1 --column-statistics=0 --set-gtid-purged=OFF --all-databases --triggers --routines --events  > "$DIR/backups/$all_without_gtid_but_server_has_gtid_backup"
 
 # ls -ltrh $DIR/backups/ | head -n 5
 
