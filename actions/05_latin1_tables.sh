@@ -3,7 +3,6 @@
 echo loading data to mysql1 latin1 
 
 mysql --login-path=root1 << eof
-
 DROP DATABASE IF EXISTS dba;
 CREATE DATABASE dba CHARACTER SET latin1;
 USE dba;
@@ -14,5 +13,4 @@ CREATE TABLE x (
   original varchar(200) DEFAULT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
 eof

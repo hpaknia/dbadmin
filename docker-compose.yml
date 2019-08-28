@@ -27,15 +27,13 @@ services:
       - ./mysql5.7.22/my2.cnf:/etc/mysql/my.cnf
       - ./data/mysql2:/var/lib/mysql
 
-  # centos7:
-  #   build: centos7
-  #   container_name: centos7
-  #   tty: true
-  #   working_dir: /centos7
-  #   environment:
-  #     - MYSQL_PWD=root
-  #   depends_on:
-  #     - mysql1
-  #     - mysql2
-  #   volumes:
-  #      - ./centos7:/centos7
+  centos7:
+    build: centos7
+    container_name: centos7
+    tty: true
+    working_dir: /centos7
+    depends_on:
+      - mysql1
+      - mysql2
+    volumes:
+       - ./centos7:/centos7

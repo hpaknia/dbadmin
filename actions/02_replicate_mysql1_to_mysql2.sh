@@ -7,12 +7,37 @@ CURRENT_LOG=`cat ${SMS} | awk '{print $1}'`
 CURRENT_POS=`cat ${SMS} | awk '{print $2}'`
 echo CURRENT_LOG: ${CURRENT_LOG},  CURRENT_POS: ${CURRENT_POS}
 echo replacing CURRENT_LOG and CURRENT_POS in the slave replication query
-sed -i '' -e "s/MASTER_LOG_FILE='.*'/MASTER_LOG_FILE='${CURRENT_LOG}'/g" centos7/rep-mysql2.sql
-sed -i '' -e "s/MASTER_LOG_POS=.*,/MASTER_LOG_POS=${CURRENT_POS},/g" centos7/rep-mysql2.sql
-
 
 echo create replication user on master
-cat $DIR/centos7/rep-mysql1.sql | mysql --login-path=root1
+mysql --login-path=root1 << eof
+-- GRANT USAGE ON *.* TO 'rep_user'@'%';
+DROP USER IF EXISTS 'rep_user'@'%';
+CREATE USER 'rep_user'@'%' IDENTIFIED BY 'rep_user';
+GRANT REPLICATION SLAVE ON *.* TO 'rep_user'@'%';
+
+DROP USER IF EXISTS 'nonroot'@'%';
+CREATE USER 'nonroot'@'%' IDENTIFIED BY 'nonroot';
+GRANT ALL PRIVILEGES ON dba.* TO 'nonroot'@'%';
+
+FLUSH PRIVILEGES;
+eof
 
 echo running replication query on slave
-cat $DIR/centos7/rep-mysql2.sql | mysql --login-path=root2
+mysql --login-path=root2 << eof
+CHANGE MASTER TO
+    MASTER_HOST='mysql1',
+    MASTER_USER='rep_user',
+    MASTER_PASSWORD='rep_user',
+ 	MASTER_LOG_POS=${CURRENT_POS},
+    MASTER_LOG_FILE='${CURRENT_LOG}',
+    MASTER_PORT=3306;
+
+RESET SLAVE;
+START SLAVE;
+
+DROP USER IF EXISTS 'nonroot'@'%';
+CREATE USER 'nonroot'@'%' IDENTIFIED BY 'nonroot';
+GRANT ALL PRIVILEGES ON dba.* TO 'nonroot'@'%';
+
+FLUSH PRIVILEGES;
+eof
