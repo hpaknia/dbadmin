@@ -1,4 +1,3 @@
-
 !includedir /etc/mysql/conf.d/
 !includedir /etc/mysql/mysql.conf.d/
 
@@ -6,10 +5,12 @@
 server-id						= 1
 max_binlog_size					= 100M
 log-bin							= mysql-bin
-binlog_format					= STATEMENT
+binlog_format					= ROW
 innodb_flush_log_at_trx_commit	= 1
 sync_binlog						= 1
 
 
-gtid_mode=ON
-enforce_gtid_consistency=ON
+gtid_mode                       = ON
+enforce_gtid_consistency        = ON
+
+innodb_file_per_table           = OFF
