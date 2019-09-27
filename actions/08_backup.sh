@@ -15,18 +15,18 @@ ignore=$(mysql --login-path=root1 INFORMATION_SCHEMA \
 	from tables 
 	where table_type = 'VIEW' and table_schema = 'employees'")
 
-mysqldump --login-path=root1 --column-statistics=0 --no-data employees $ignore > "$DIR/backups/$schema_backup"	
+mysqldump --login-path=root1  --no-data employees $ignore > "$DIR/backups/$schema_backup"	
 
 echo backup only and only views and procedures
 
 mysql --login-path=root1 INFORMATION_SCHEMA \
 	--skip-column-names --batch \
 	-e "select table_name from tables where table_type = 'VIEW' and table_schema = 'employees'" \
-	| xargs mysqldump --login-path=root1 --column-statistics=0 --no-data -R employees > "$DIR/backups/$view_procedure_backup"
+	| xargs mysqldump --login-path=root1  --no-data -R employees > "$DIR/backups/$view_procedure_backup"
 
 
 echo backup all without gtid
-mysqldump --login-path=root1 --column-statistics=0 --set-gtid-purged=OFF --all-databases --triggers --routines --events  > "$DIR/backups/$all_without_gtid_backup"
+mysqldump --login-path=root1  --set-gtid-purged=OFF --all-databases --triggers --routines --events  > "$DIR/backups/$all_without_gtid_backup"
 
 echo enabling gtid on the server, wait got gtid is enabled message
 
@@ -74,10 +74,10 @@ mysql --login-path=root2 -e "$query"
 echo gtid is enabled message
 
 echo backup all with gtid
-mysqldump --login-path=root1 --column-statistics=0 --set-gtid-purged=ON --all-databases --triggers --routines --events  > "$DIR/backups/$all_with_gtid_backup"
+mysqldump --login-path=root1  --set-gtid-purged=ON --all-databases --triggers --routines --events  > "$DIR/backups/$all_with_gtid_backup"
 
 echo backup all without gtid, but server gtid is enabled
-mysqldump --login-path=root1 --column-statistics=0 --set-gtid-purged=OFF --all-databases --triggers --routines --events  > "$DIR/backups/$all_without_gtid_but_server_has_gtid_backup"
+mysqldump --login-path=root1  --set-gtid-purged=OFF --all-databases --triggers --routines --events  > "$DIR/backups/$all_without_gtid_but_server_has_gtid_backup"
 
 # ls -ltrh $DIR/backups/ | head -n 5
 

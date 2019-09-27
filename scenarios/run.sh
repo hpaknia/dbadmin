@@ -2,7 +2,7 @@
 
 set -e
 
-DIR=`realpath $( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/..`
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/.."
 
 echo we do not have any passowrds set for any of the users
 echo obviously we could use passwords, but then following lines would need user interactions

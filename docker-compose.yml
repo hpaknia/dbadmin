@@ -29,11 +29,11 @@ services:
       - ./mysql5.7.22/my2.cnf:/etc/mysql/my.cnf
       - ./data/mysql2:/var/lib/mysql
 
-  centos7:
-    build: centos7
-    container_name: centos7
+  executor:
+    build: executor
+    container_name: executor
     tty: true
-    working_dir: /centos7
+    working_dir: /mounted
     depends_on:
       - mysql1
       - mysql2

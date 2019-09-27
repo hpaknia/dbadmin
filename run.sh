@@ -30,11 +30,11 @@ rm -rf $DIR/backups/*
 echo starting the containers
 $dc up --force-recreate --build --remove-orphans -d
 
-echo run the scenario in the centos box 
+echo run the scenario in the executor box 
 
-# docker exec centos7 bash -c "export DIR=/mounted && /mounted/scenarios/01_backup.sh"
-# docker exec centos7 bash -c "export DIR=/mounted && /mounted/scenarios/02_bidirectional_replication.sh"
-docker exec centos7 bash -c "/mounted/scenarios/run.sh 03_bidirectional_replication_gtid.sh"
+# docker exec -it executor bash -c "/mounted/scenarios/run.sh 01_backup.sh"
+# docker exec -it executor bash -c "/mounted/scenarios/run.sh 02_bidirectional_replication.sh"
+docker exec -it executor bash -c "/mounted/scenarios/run.sh 03_bidirectional_replication_gtid.sh"
 
 read -p "Press enter to end"
 teardown
