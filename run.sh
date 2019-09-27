@@ -43,8 +43,3 @@ teardown
 # $dc logs -f
 # docker-compose logs -f
 
-
-
-
-
-

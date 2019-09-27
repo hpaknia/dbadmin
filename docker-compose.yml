@@ -1,6 +1,19 @@
 version: '2'
 
 services:
+  # maria1:
+  #   image: mariadb:10.0.30
+  #   container_name: maria1
+  #   tty: true
+  #   ports:
+  #     - "33071:3306"
+  #   environment:
+  #     - MYSQL_ALLOW_EMPTY_PASSWORD=true
+  #     # - MYSQL_ROOT_PASSWORD="root"
+  #   volumes:
+  #     - ./data/maria1:/var/lib/mysql
+  #     - ./maria10.4.8/my1.cnf:/etc/my.cnf
+
   mysql1:
     image: mysql:5.7.22
     container_name: mysql1
