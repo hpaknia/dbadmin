@@ -1,5 +1,8 @@
 # DB Admin
 
+### QUICK Start
+Clone and run `./run.sh`.
+
 ### Prerequisite
 Make sure you have docker installed. Scripts are tested in Mac OS, so they should work fine in linux based systems.
 You should have mysql client and mysql_config_editor installed on your machine. I will soon remove this depepndency by running the commands from a centos container.
