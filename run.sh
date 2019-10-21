@@ -34,7 +34,8 @@ echo run the scenario in the executor box
 
 # docker exec -it executor bash -c "/mounted/scenarios/run.sh 01_backup.sh"
 # docker exec -it executor bash -c "/mounted/scenarios/run.sh 02_bidirectional_replication.sh"
-docker exec -it executor bash -c "/mounted/scenarios/run.sh 03_bidirectional_replication_gtid.sh"
+# docker exec -it executor bash -c "/mounted/scenarios/run.sh 03_bidirectional_replication_gtid.sh"
+docker exec -it executor bash -c "/mounted/scenarios/run.sh 04_gtid_replication_3_servers.sh"
 
 read -p "Press enter to end"
 teardown

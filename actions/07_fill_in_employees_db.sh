@@ -54,7 +54,6 @@ BEGIN
   DECLARE v_lastInsertId MEDIUMINT;
   INSERT INTO departments SET dept_no = p_dept_no, dept_name = p_dept_name;
   SET v_lastInsertId = LAST_INSERT_ID();
-  SELECT v_lastInsertId;
 END \$\$
 
 DELIMITER ;
